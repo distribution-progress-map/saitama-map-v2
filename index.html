@@ -25,6 +25,57 @@ body{
   height:100%;
 }
 
+.confirm-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:99999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.confirm-box{
+  width:min(320px, 85vw);
+  background:white;
+  border-radius:14px;
+  padding:18px 16px;
+  box-shadow:0 8px 24px rgba(0,0,0,0.35);
+  text-align:center;
+}
+
+.confirm-message{
+  font-size:16px;
+  font-weight:bold;
+  line-height:1.6;
+  margin-bottom:18px;
+  color:#333;
+}
+
+.confirm-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.confirm-buttons button{
+  flex:1;
+  padding:10px 0;
+  border:none;
+  border-radius:8px;
+  font-size:15px;
+  font-weight:bold;
+}
+
+#confirmOkButton{
+  background:#ff9800;
+  color:white;
+}
+
+#confirmCancelButton{
+  background:#e0e0e0;
+  color:#333;
+}
+
 .panel{
   position:absolute;
   background:white;
@@ -861,6 +912,19 @@ body{
 <body>
 <div id="map"></div>
 
+<div id="confirmOverlay" class="confirm-overlay" style="display:none;">
+  <div class="confirm-box">
+    <div id="confirmMessage" class="confirm-message">
+      確認メッセージ
+    </div>
+
+    <div class="confirm-buttons">
+      <button id="confirmOkButton" type="button">OK</button>
+      <button id="confirmCancelButton" type="button">キャンセル</button>
+    </div>
+  </div>
+</div>
+
 <div id="cityMovePanel" class="city-move-panel" style="display:none;">
   <div id="cityMoveText" class="city-move-text"></div>
   <button id="cityMoveButton" type="button">市町村ページへ移動</button>
@@ -1165,6 +1229,7 @@ const areaItemsById = {};
 const areaLayersById = {};
 
 let currentRequestId = null;
+let confirmCallback = null;
 let areaFormResolver = null;
 let doneFormResolver = null;
 let mobileDrawing = false;
@@ -2082,34 +2147,37 @@ function submitContactForm(){
   */
 
   
-  const ok = confirm("管理者へ連絡を送信しますか？");
-  if(!ok) return;
+  openConfirm(
+  "管理者へ連絡を送信しますか？",
+  function(){
 
-  /* 送信ボタンを押したらすぐフォームを閉じる */
-  document.getElementById("contactFormModal").style.display = "none";
+    document.getElementById("contactFormModal").style.display = "none";
 
-
-  fetch(SCRIPT_URL, {
-    method:"POST",
-    body:JSON.stringify({
-      action:"contact",
-      pass:pass,
-      title:title,
-      message:message,
-      name:document.getElementById("contactName").value,
-      email:document.getElementById("contactEmail").value,
-      note:document.getElementById("contactNote").value
+    fetch(SCRIPT_URL, {
+      method:"POST",
+      body:JSON.stringify({
+        action:"contact",
+        pass:pass,
+        title:title,
+        message:message,
+        name:document.getElementById("contactName").value,
+        email:document.getElementById("contactEmail").value,
+        note:document.getElementById("contactNote").value
+      })
     })
-  })
-  .then(res => res.json())
-  .then(result => {
-    if(result.status === "OK"){
-      alert("管理者へ連絡を送信しました");
-      document.getElementById("contactFormModal").style.display = "none";
-    }else{
-      alert("合言葉が違います");
-    }
-  });
+    .then(res => res.json())
+    .then(result => {
+      if(result.status === "OK"){
+        alert("管理者へ連絡を送信しました");
+      }else{
+        alert("合言葉が違います");
+      }
+    });
+
+  }
+);
+
+return;
 }
 
 function cancelContactForm(){
@@ -2125,6 +2193,17 @@ function resetView(){
       padding:[30, 30]
     });
   }
+}
+
+function openConfirm(message, callback){
+  confirmCallback = callback;
+  document.getElementById("confirmMessage").innerHTML = message;
+  document.getElementById("confirmOverlay").style.display = "flex";
+}
+
+function closeConfirm(){
+  document.getElementById("confirmOverlay").style.display = "none";
+  confirmCallback = null;
 }
 
 function moveToSelectedCity(){
@@ -2203,6 +2282,22 @@ map.on("click", function(e){
 
 document.getElementById("cityMoveButton").addEventListener("click", moveToSelectedCity);
 document.getElementById("cityMoveCancel").addEventListener("click", cancelCityMove);
+
+document.getElementById("confirmOkButton")
+.addEventListener("click", function(){
+
+  const cb = confirmCallback;
+
+  closeConfirm();
+
+  if(cb) cb();
+
+});
+
+document.getElementById("confirmCancelButton")
+.addEventListener("click", function(){
+  closeConfirm();
+});
 
 // =========================
 // onclick用に公開
