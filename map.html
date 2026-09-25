@@ -1045,7 +1045,33 @@ body{
   .desktop-draw-start{ display:block; }
 }
 
+
+/* =========================
+   みんなの活動報告
+========================= */
+.activity-report-overlay{display:none;position:fixed;inset:0;z-index:50010;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;background:rgba(0,0,0,.55);opacity:0;transition:opacity .25s ease;}
+.activity-report-overlay.open{display:flex;}
+.activity-report-overlay.visible{opacity:1;}
+.activity-report-card{position:relative;width:min(520px,88vw);max-height:88vh;padding:24px 20px 20px;box-sizing:border-box;background:#fff;border-radius:14px;box-shadow:0 10px 35px rgba(0,0,0,.4);display:flex;flex-direction:column;}
+.activity-report-title{margin:4px 30px 15px;color:#333;font-size:22px;font-weight:bold;text-align:center;}
+.activity-report-thanks{margin-bottom:12px;color:#666;font-size:14px;text-align:center;}
+.activity-report-list{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2px 6px;font-size:15px;line-height:1.9;}
+.activity-report-item{padding:8px 2px;border-bottom:1px solid #eee;}
+.activity-report-item:last-child{border-bottom:none;}
+.activity-report-close{position:absolute;top:8px;right:8px;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#eee;color:#444;font-size:22px;line-height:30px;cursor:pointer;}
+.activity-report-close:hover{background:#ddd;}
+
 @media (max-width:600px) and (pointer:coarse){
+
+  .activity-report-overlay{padding:12px;}
+  .activity-report-card{width:92vw;max-height:90vh;padding:20px 14px 16px;}
+  .activity-report-title{margin:3px 28px 12px;font-size:18px;}
+  .activity-report-thanks{font-size:12px;margin-bottom:10px;}
+  .activity-report-list{font-size:14px;line-height:1.9;}
+  .activity-report-item{padding:7px 1px;}
+  .activity-report-close{width:27px;height:27px;font-size:20px;line-height:27px;}
+
+
   .leaflet-draw{
     display:none !important;
   }
@@ -2549,6 +2575,17 @@ body{
 
 </div>
 
+
+<!-- みんなの活動報告 -->
+<div id="activityReportOverlay" class="activity-report-overlay" aria-hidden="true">
+  <div id="activityReportCard" class="activity-report-card">
+    <button id="activityReportCloseButton" class="activity-report-close" type="button" aria-label="活動報告を閉じる">×</button>
+    <div class="activity-report-title">～みんなの活動報告～</div>
+    <div class="activity-report-thanks">いつもありがとうございます！</div>
+    <div id="activityReportList" class="activity-report-list"></div>
+  </div>
+</div>
+
 <div class="panel contact-panel">
   <button onclick="openContactForm()">管理者へ連絡</button>
 </div>
@@ -3001,6 +3038,100 @@ const FLYER_VIEW_KEY =
   "saitamaMap_flyerView_202609_v1";
 
 
+
+/* =========================
+   みんなの活動報告
+========================= */
+let activityReportRows = [];
+let activityReportDataReady = false;
+let activityReportPendingAfterFlyer = false;
+
+function parseActivityDate(value){
+  if(!value) return null;
+  const text=String(value).trim();
+  if(!text) return null;
+  const m=text.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
+  if(m){
+    const y=Number(m[1]), mo=Number(m[2]), d=Number(m[3]);
+    const date=new Date(y,mo-1,d);
+    if(date.getFullYear()===y && date.getMonth()===mo-1 && date.getDate()===d) return date;
+  }
+  const date=new Date(text);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function formatActivityDate(date){
+  return (date.getMonth()+1)+"月"+date.getDate()+"日";
+}
+
+function formatActivityCount(value){
+  if(value===null || value===undefined || String(value).trim()==="") return "枚数未記載";
+  const text=String(value).replace(/,/g,"").trim();
+  const num=Number(text);
+  return Number.isFinite(num) ? num.toLocaleString("ja-JP")+"枚" : String(value).trim()+"枚";
+}
+
+function escapeActivityHtml(value){
+  return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+}
+
+function prepareActivityReport(areas){
+  activityReportDataReady=true;
+  if(!Array.isArray(areas)){activityReportRows=[];tryOpenActivityReportAfterFlyer();return;}
+  const cutoff=new Date();
+  cutoff.setDate(cutoff.getDate()-14);
+  cutoff.setHours(0,0,0,0);
+  const end=new Date();
+  end.setHours(23,59,59,999);
+  activityReportRows=areas.filter(row=>row && row["種類"]==="配布済").map(row=>{
+    const eventDate=parseActivityDate(row["実施日"]);
+    const registeredDate=eventDate ? null : parseActivityDate(row["登録日時"]);
+    const baseDate=eventDate || registeredDate;
+    if(!baseDate || baseDate<cutoff || baseDate>end) return null;
+    const city=String(row["市町村"]||"").trim() || "市町村未記載";
+    return {dateLabel:eventDate?formatActivityDate(eventDate):"某日",city:city,countLabel:formatActivityCount(row["枚数"]),sortTime:baseDate.getTime()};
+  }).filter(Boolean).sort((a,b)=>b.sortTime-a.sortTime);
+  tryOpenActivityReportAfterFlyer();
+}
+
+function renderActivityReport(){
+  const list=document.getElementById("activityReportList");
+  if(!list) return;
+  list.innerHTML=activityReportRows.map(item=>'<div class="activity-report-item"><strong>'+escapeActivityHtml(item.dateLabel)+'</strong>　'+escapeActivityHtml(item.city)+'　'+escapeActivityHtml(item.countLabel)+'</div>').join("");
+}
+
+function openActivityReport(){
+  if(!activityReportRows.length) return;
+  renderActivityReport();
+  const overlay=document.getElementById("activityReportOverlay");
+  if(!overlay) return;
+  overlay.classList.add("open");
+  overlay.setAttribute("aria-hidden","false");
+  requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add("visible")));
+}
+
+function closeActivityReport(){
+  const overlay=document.getElementById("activityReportOverlay");
+  if(!overlay) return;
+  overlay.classList.remove("visible");
+  setTimeout(()=>{overlay.classList.remove("open");overlay.setAttribute("aria-hidden","true");},250);
+}
+
+function tryOpenActivityReportAfterFlyer(){
+  if(!activityReportPendingAfterFlyer) return;
+  if(!activityReportDataReady) return;
+  activityReportPendingAfterFlyer=false;
+  if(!activityReportRows.length) return;
+  setTimeout(openActivityReport,120);
+}
+
+function initActivityReport(){
+  const btn=document.getElementById("activityReportCloseButton");
+  if(btn) btn.addEventListener("click",closeActivityReport);
+}
+
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",initActivityReport); else initActivityReport();
+
 function positionFlyerThumbnail(){
 
   const title =
@@ -3301,6 +3432,10 @@ function closeFlyerPreview(){
     );
 
     showFlyerThumbnail();
+
+    /* チラシを閉じたら毎回、活動報告へ */
+    activityReportPendingAfterFlyer = true;
+    tryOpenActivityReportAfterFlyer();
 
   }, 450);
 }
@@ -4232,6 +4367,10 @@ function renderAreaData(json){
   clearAreaLayers();
 
   renderAdminHistory(
+    json.areas
+  );
+
+  prepareActivityReport(
     json.areas
   );
 
