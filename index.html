@@ -738,7 +738,7 @@ body{
   cursor:pointer;
 }
 
-/* 「埼玉県を全体表示」 */
+/* 埼玉県を全体表示」 */
 .reset-panel{
   bottom:20px;
   left:20px;
@@ -1252,34 +1252,145 @@ body{
   background:#dddddd;
 }
 
-
-
 /* =========================
    みんなの活動報告
 ========================= */
-.activity-report-overlay{display:none;position:fixed;inset:0;z-index:50010;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;background:rgba(0,0,0,.55);opacity:0;transition:opacity .25s ease;}
-.activity-report-overlay.open{display:flex;}
-.activity-report-overlay.visible{opacity:1;}
-.activity-report-card{position:relative;width:min(520px,88vw);max-height:88vh;padding:24px 20px 20px;box-sizing:border-box;background:#fff;border-radius:14px;box-shadow:0 10px 35px rgba(0,0,0,.4);display:flex;flex-direction:column;}
-.activity-report-title{margin:4px 30px 15px;color:#333;font-size:22px;font-weight:bold;text-align:center;}
-.activity-report-thanks{margin-bottom:12px;color:#666;font-size:14px;text-align:center;}
-.activity-report-list{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2px 6px;font-size:15px;line-height:1.9;}
-.activity-report-item{padding:8px 2px;border-bottom:1px solid #eee;}
-.activity-report-item:last-child{border-bottom:none;}
-.activity-report-close{position:absolute;top:8px;right:8px;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:#eee;color:#444;font-size:22px;line-height:30px;cursor:pointer;}
-.activity-report-close:hover{background:#ddd;}
+
+.activity-report-overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+
+  z-index:50010;
+
+  align-items:center;
+  justify-content:center;
+
+  padding:20px;
+  box-sizing:border-box;
+
+  background:rgba(0,0,0,.55);
+
+  opacity:0;
+  transition:opacity .25s ease;
+}
+
+.activity-report-overlay.open{
+  display:flex;
+}
+
+.activity-report-overlay.visible{
+  opacity:1;
+}
+
+.activity-report-card{
+  position:relative;
+
+  width:min(520px, 88vw);
+  max-height:88vh;
+
+  padding:24px 20px 20px;
+  box-sizing:border-box;
+
+  background:#fff;
+
+  border-radius:14px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.4);
+
+  display:flex;
+  flex-direction:column;
+}
+
+.activity-report-title{
+  margin:4px 30px 15px;
+
+  color:#333;
+
+  font-size:22px;
+  font-weight:bold;
+
+  text-align:center;
+}
+
+.activity-report-list{
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+
+  padding:2px 6px;
+
+  font-size:15px;
+  line-height:1.9;
+}
+
+.activity-report-item{
+  padding:8px 2px;
+
+  border-bottom:
+    1px solid #eeeeee;
+}
+
+.activity-report-item:last-child{
+  border-bottom:none;
+}
+
+.activity-report-close{
+  position:absolute;
+
+  top:8px;
+  right:8px;
+
+  width:30px;
+  height:30px;
+
+  padding:0;
+
+  border:0;
+  border-radius:50%;
+
+  background:#eeeeee;
+  color:#444;
+
+  font-size:22px;
+  line-height:30px;
+
+  cursor:pointer;
+}
+
+.activity-report-close:hover{
+  background:#dddddd;
+}
+
+.activity-report-thanks{
+  margin-bottom:12px;
+  color:#666;
+  font-size:14px;
+  text-align:center;
+}
+
+.activity-report-total{
+  margin-bottom:14px;
+  color:#333;
+  font-size:17px;
+  font-weight:bold;
+  text-align:center;
+}
+
+.activity-report-total-count{
+  text-decoration:underline;
+  text-decoration-color:#f59e0b;
+  text-decoration-thickness:2px;
+  text-underline-offset:4px;
+}
+
+.activity-report-list{
+  border-top:1px solid #e5e5e5;
+  padding-top:9px;
+}
+
 
 @media (max-width:600px) and (pointer:coarse){
-
-  .activity-report-overlay{padding:12px;}
-  .activity-report-card{width:92vw;max-height:90vh;padding:20px 14px 16px;}
-  .activity-report-title{margin:3px 28px 12px;font-size:18px;}
-  .activity-report-thanks{font-size:12px;margin-bottom:10px;}
-  .activity-report-list{font-size:14px;line-height:1.9;}
-  .activity-report-item{padding:7px 1px;}
-  .activity-report-close{width:27px;height:27px;font-size:20px;line-height:27px;}
-
-
   .area-detail-popup{
     width:min(264px, 72vw);
     max-height:60vh;
@@ -1794,8 +1905,8 @@ body{
   }
 
   /* 市町村ページへ移動 */
-  #areaDetailPopupContent > .popup-admin-btn{
-    margin-top:5px !important;
+  #areaDetailPopupContent > .area-detail-action-row > .popup-admin-btn{
+    margin-top:0 !important;
     padding:3px 6px !important;
     font-size:10px !important;
     line-height:1.25;
@@ -1861,7 +1972,50 @@ body{
     font-size:20px;
     line-height:27px;
   }
+
+  .activity-report-overlay{
+    padding:12px;
+  }
+
+  .activity-report-card{
+    width:92vw;
+    max-height:90vh;
+
+    padding:20px 14px 16px;
+  }
+
+  .activity-report-title{
+    margin:3px 28px 12px;
+
+    font-size:18px;
+  }
+
+  .activity-report-list{
+    font-size:14px;
+    line-height:1.9;
+  }
+
+  .activity-report-item{
+    padding:7px 1px;
+  }
+
+  .activity-report-close{
+    width:27px;
+    height:27px;
+
+    font-size:20px;
+    line-height:27px;
+  }
+
+  .activity-report-thanks{
+    font-size:12px;
+    margin-bottom:10px;
+  }
    
+  .activity-report-total{
+    font-size:15px;
+    margin-bottom:12px;
+  }
 }
 
 
@@ -1950,6 +2104,13 @@ body{
 
 }
 /* パソコンのみの設定 */
+
+.area-detail-request-pending{
+  color:#d00000;
+  font-size:13px;
+  font-weight:bold;
+  white-space:nowrap;
+}
 
 
 </style>
@@ -2426,14 +2587,42 @@ body{
 
 </div>
 
-
 <!-- みんなの活動報告 -->
-<div id="activityReportOverlay" class="activity-report-overlay" aria-hidden="true">
-  <div id="activityReportCard" class="activity-report-card">
-    <button id="activityReportCloseButton" class="activity-report-close" type="button" aria-label="活動報告を閉じる">×</button>
-    <div class="activity-report-title">～みんなの活動報告～</div>
-    <div class="activity-report-thanks">いつもありがとうございます！</div>
-    <div id="activityReportList" class="activity-report-list"></div>
+<div
+  id="activityReportOverlay"
+  class="activity-report-overlay"
+  aria-hidden="true"
+>
+  <div
+    id="activityReportCard"
+    class="activity-report-card"
+  >
+
+    <button
+      id="activityReportCloseButton"
+      class="activity-report-close"
+      type="button"
+      aria-label="活動報告を閉じる"
+    >×</button>
+
+    <div class="activity-report-title">
+      ～みんなの活動報告～
+    </div>
+
+    <div class="activity-report-thanks">
+      いつもありがとうございます！
+    </div>
+
+    <div class="activity-report-total">
+      埼玉県全域の配布完了枚数：
+      <span id="activityReportTotalCount" class="activity-report-total-count">0枚</span>
+    </div>
+
+    <div
+      id="activityReportList"
+      class="activity-report-list"
+    ></div>
+
   </div>
 </div>
 
@@ -2826,8 +3015,6 @@ function showUpdatingStatus(){
   自動で大きく表示する頻度：
   24時間に1回
 */
-const FLYER_ENABLED = true;
-
 const FLYER_AUTO_SHOW_INTERVAL =
   24 * 60 * 60 * 1000;
 
@@ -2842,100 +3029,572 @@ const FLYER_AUTO_SHOW_INTERVAL =
 const FLYER_VIEW_KEY =
   "saitamaMap_flyerView_202609_v1";
 
-
-
 /* =========================
    みんなの活動報告
 ========================= */
+
+
+/*
+  表示対象データ
+*/
 let activityReportRows = [];
+
+let activityReportTotalCount = 0;
+
+
+/*
+  スプレッドシートデータを
+  一度取得できたかどうか
+*/
 let activityReportDataReady = false;
+
+
+/*
+  チラシを閉じた後、
+  活動報告の表示待ちかどうか
+*/
 let activityReportPendingAfterFlyer = false;
 
+
+/*
+  日付データをDateへ変換
+*/
 function parseActivityDate(value){
-  if(!value) return null;
-  const text=String(value).trim();
-  if(!text) return null;
-  const m=text.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})/);
-  if(m){
-    const y=Number(m[1]), mo=Number(m[2]), d=Number(m[3]);
-    const date=new Date(y,mo-1,d);
-    if(date.getFullYear()===y && date.getMonth()===mo-1 && date.getDate()===d) return date;
+
+  if(!value){
+    return null;
   }
-  const date=new Date(text);
-  return Number.isNaN(date.getTime()) ? null : date;
+
+  const text = String(value).trim();
+
+  if(!text){
+    return null;
+  }
+
+
+  /*
+    Apps Scriptから届くISO形式を先に処理
+    例：2026-11-19T15:00:00.000Z
+    日本時間では2026年11月20日
+  */
+  if(
+    /^\d{4}-\d{1,2}-\d{1,2}T/.test(text)
+  ){
+
+    const isoDate = new Date(text);
+
+    if(
+      !Number.isNaN(
+        isoDate.getTime()
+      )
+    ){
+      return isoDate;
+    }
+
+  }
+
+
+  /*
+    2026/11/20
+    2026-11-20
+    のような日付だけの形式
+  */
+  const match = text.match(
+    /^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/
+  );
+
+  if(match){
+
+    const year = Number(match[1]);
+    const month = Number(match[2]);
+    const day = Number(match[3]);
+
+    const date = new Date(
+      year,
+      month - 1,
+      day
+    );
+
+    if(
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day
+    ){
+      return date;
+    }
+
+  }
+
+
+  /*
+    その他の日時形式
+  */
+  const date = new Date(text);
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+    return null;
+  }
+
+  return date;
 }
 
+
+/*
+  9月25日 の形へ
+*/
 function formatActivityDate(date){
-  return (date.getMonth()+1)+"月"+date.getDate()+"日";
+
+  return new Intl.DateTimeFormat(
+    "ja-JP",
+    {
+      timeZone: "Asia/Tokyo",
+      month: "long",
+      day: "numeric"
+    }
+  ).format(date);
+
 }
 
+
+/*
+  枚数表示
+*/
 function formatActivityCount(value){
-  if(value===null || value===undefined || String(value).trim()==="") return "枚数未記載";
-  const text=String(value).replace(/,/g,"").trim();
-  const num=Number(text);
-  return Number.isFinite(num) ? num.toLocaleString("ja-JP")+"枚" : String(value).trim()+"枚";
+
+  if(
+    value === null ||
+    value === undefined ||
+    String(value).trim() === ""
+  ){
+    return "枚数未記載";
+  }
+
+  const text =
+    String(value)
+      .replace(/,/g, "")
+      .trim();
+
+  const number =
+    Number(text);
+
+  if(
+    Number.isFinite(number)
+  ){
+
+    return (
+      number.toLocaleString("ja-JP") +
+      "枚"
+    );
+
+  }
+
+  return (
+    String(value).trim() +
+    "枚"
+  );
 }
 
+
+/*
+  HTMLに表示する文字を安全にする
+*/
 function escapeActivityHtml(value){
-  return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
+
+/*
+  直近2週間の
+  配布済エリアを抽出
+*/
 function prepareActivityReport(areas){
-  activityReportDataReady=true;
-  if(!Array.isArray(areas)){activityReportRows=[];tryOpenActivityReportAfterFlyer();return;}
-  const cutoff=new Date();
-  cutoff.setDate(cutoff.getDate()-14);
-  cutoff.setHours(0,0,0,0);
-  const end=new Date();
-  end.setHours(23,59,59,999);
-  activityReportRows=areas.filter(row=>row && row["種類"]==="配布済").map(row=>{
-    const eventDate=parseActivityDate(row["実施日"]);
-    const registeredDate=eventDate ? null : parseActivityDate(row["登録日時"]);
-    const baseDate=eventDate || registeredDate;
-    if(!baseDate || baseDate<cutoff || baseDate>end) return null;
-    const city=String(row["市町村"]||"").trim() || "市町村未記載";
-    return {dateLabel:eventDate?formatActivityDate(eventDate):"某日",city:city,countLabel:formatActivityCount(row["枚数"]),sortTime:baseDate.getTime()};
-  }).filter(Boolean).sort((a,b)=>b.sortTime-a.sortTime);
+
+  activityReportDataReady = true;
+
+
+  if(
+    !Array.isArray(areas)
+  ){
+
+    activityReportRows = [];
+    activityReportTotalCount = 0;
+
+    tryOpenActivityReportAfterFlyer();
+
+    return;
+  }
+
+  activityReportTotalCount = areas.reduce(function(total, row){
+    if(!row || row["種類"] !== "配布済") return total;
+    const count = getAreaCountNumber(row["枚数"]);
+    return count !== null && count >= 0 ? total + count : total;
+  }, 0);
+
+
+  const now =
+    new Date();
+
+
+  /*
+    14日前の0時から対象
+  */
+  const cutoff =
+    new Date();
+
+  cutoff.setDate(
+    cutoff.getDate() - 14
+  );
+
+  cutoff.setHours(
+    0,
+    0,
+    0,
+    0
+  );
+
+
+  const end =
+    new Date();
+
+  end.setHours(
+    23,
+    59,
+    59,
+    999
+  );
+
+
+  activityReportRows =
+    areas
+      .filter(function(row){
+
+        return (
+          row &&
+          row["種類"] === "配布済"
+        );
+
+      })
+      .map(function(row){
+
+        /*
+          実施日が最優先
+        */
+        const eventDate =
+          parseActivityDate(
+            row["実施日"]
+          );
+
+
+        /*
+          実施日が無い時だけ
+          登録日時を見る
+        */
+        const registeredDate =
+          eventDate
+            ? null
+            : parseActivityDate(
+                row["登録日時"]
+              );
+
+
+        const baseDate =
+          eventDate ||
+          registeredDate;
+
+
+        if(!baseDate){
+          return null;
+        }
+
+
+        if(
+          baseDate < cutoff ||
+          baseDate > end
+        ){
+          return null;
+        }
+
+
+        const city =
+          String(
+            row["市町村"] || ""
+          ).trim() ||
+          "市町村未記載";
+
+
+        return {
+
+          dateLabel:
+            eventDate
+              ? formatActivityDate(
+                  eventDate
+                )
+              : "某日",
+
+          city:
+            city,
+
+          countLabel:
+            formatActivityCount(
+              row["枚数"]
+            ),
+
+          /*
+            並び替え用。
+            実施日なしの場合は登録日時。
+          */
+          sortTime:
+            baseDate.getTime()
+
+        };
+
+      })
+      .filter(Boolean)
+      .sort(function(a, b){
+
+        return (
+          b.sortTime -
+          a.sortTime
+        );
+
+      });
+
+  const reportOverlay = document.getElementById("activityReportOverlay");
+  if(reportOverlay && reportOverlay.classList.contains("open")){
+    renderActivityReport();
+  }
+
+
+  /*
+    チラシをすでに閉じていて
+    データ待ちだった場合
+  */
   tryOpenActivityReportAfterFlyer();
 }
 
+
+/*
+  活動報告をHTML化
+*/
 function renderActivityReport(){
-  const list=document.getElementById("activityReportList");
-  if(!list) return;
-  list.innerHTML=activityReportRows.map(item=>'<div class="activity-report-item"><strong>'+escapeActivityHtml(item.dateLabel)+'</strong>　'+escapeActivityHtml(item.city)+'　'+escapeActivityHtml(item.countLabel)+'</div>').join("");
+
+  const totalElement = document.getElementById("activityReportTotalCount");
+  if(totalElement){
+    totalElement.textContent =
+      activityReportTotalCount.toLocaleString("ja-JP") + "枚";
+  }
+
+  const list =
+    document.getElementById(
+      "activityReportList"
+    );
+
+  if(!list){
+    return;
+  }
+
+
+  list.innerHTML =
+    (activityReportRows.length ? activityReportRows
+      .map(function(item){
+
+        return (
+          '<div class="activity-report-item">' +
+
+            '<strong>' +
+              escapeActivityHtml(
+                item.dateLabel
+              ) +
+            '</strong>' +
+
+            "　" +
+
+            escapeActivityHtml(
+              item.city
+            ) +
+
+            "　" +
+
+            escapeActivityHtml(
+              item.countLabel
+            ) +
+
+          "</div>"
+        );
+
+      })
+      .join("") : '<div class="activity-report-item">直近2週間の活動報告はありません。</div>');
 }
 
+
+/*
+  活動報告を開く
+*/
 function openActivityReport(){
-  if(!activityReportRows.length) return;
   renderActivityReport();
-  const overlay=document.getElementById("activityReportOverlay");
-  if(!overlay) return;
-  overlay.classList.add("open");
-  overlay.setAttribute("aria-hidden","false");
-  requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add("visible")));
+
+
+  const overlay =
+    document.getElementById(
+      "activityReportOverlay"
+    );
+
+
+  if(!overlay){
+    return;
+  }
+
+
+  overlay.classList.add(
+    "open"
+  );
+
+  overlay.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  requestAnimationFrame(
+    function(){
+
+      requestAnimationFrame(
+        function(){
+
+          overlay.classList.add(
+            "visible"
+          );
+
+        }
+      );
+
+    }
+  );
 }
 
+
+/*
+  活動報告を閉じる
+*/
 function closeActivityReport(){
-  const overlay=document.getElementById("activityReportOverlay");
-  if(!overlay) return;
-  overlay.classList.remove("visible");
-  setTimeout(()=>{overlay.classList.remove("open");overlay.setAttribute("aria-hidden","true");},250);
+
+  const overlay =
+    document.getElementById(
+      "activityReportOverlay"
+    );
+
+
+  if(!overlay){
+    return;
+  }
+
+
+  overlay.classList.remove(
+    "visible"
+  );
+
+
+  setTimeout(function(){
+
+    overlay.classList.remove(
+      "open"
+    );
+
+    overlay.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+  }, 250);
 }
 
+
+/*
+  チラシを閉じた後にだけ
+  活動報告を出す
+*/
 function tryOpenActivityReportAfterFlyer(){
-  if(!activityReportPendingAfterFlyer) return;
-  if(!activityReportDataReady) return;
-  activityReportPendingAfterFlyer=false;
-  if(!activityReportRows.length) return;
-  setTimeout(openActivityReport,120);
+
+  if(
+    !activityReportPendingAfterFlyer
+  ){
+    return;
+  }
+
+
+  /*
+    まだスプレッドシートの
+    データ取得前なら待つ
+  */
+  if(
+    !activityReportDataReady
+  ){
+    return;
+  }
+
+
+  activityReportPendingAfterFlyer =
+    false;
+
+  setTimeout(
+    openActivityReport,
+    120
+  );
 }
 
+
+/*
+  閉じるボタン準備
+*/
 function initActivityReport(){
-  const btn=document.getElementById("activityReportCloseButton");
-  if(btn) btn.addEventListener("click",closeActivityReport);
+
+  const closeButton =
+    document.getElementById(
+      "activityReportCloseButton"
+    );
+
+
+  if(closeButton){
+
+    closeButton.addEventListener(
+      "click",
+      closeActivityReport
+    );
+
+  }
+
 }
 
-if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",initActivityReport); else initActivityReport();
+
+/*
+  HTML準備完了後に開始
+*/
+if(
+  document.readyState ===
+  "loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    initActivityReport
+  );
+
+}else{
+
+  initActivityReport();
+
+}
+
 
 function positionFlyerThumbnail(){
 
@@ -3238,8 +3897,13 @@ function closeFlyerPreview(){
 
     showFlyerThumbnail();
 
-    /* チラシを閉じたら毎回、活動報告へ */
-    activityReportPendingAfterFlyer = true;
+    /*
+      続けて
+      「みんなの活動報告」を表示
+    */
+    activityReportPendingAfterFlyer =
+      true;
+
     tryOpenActivityReportAfterFlyer();
 
   }, 450);
@@ -3279,8 +3943,6 @@ function shouldAutoShowFlyer(){
 
 
 function initFlyerPreview(){
-
-  if(!FLYER_ENABLED) return;
 
   const thumb =
     document.getElementById(
@@ -3469,8 +4131,35 @@ const IS_PARENT_PAGE = !CURRENT_CITY;
 const INDEX_SELECTED_AREA_KEY =
   "selectedAreaFromIndex";
 
-const isTouchDevice = window.matchMedia("(max-width:600px) and (pointer:coarse)").matches;
-const map = L.map("map", { zoomControl:false }).setView([35.9,139.5], 9);
+const isTouchDevice =
+  window.matchMedia("(max-width:600px) and (pointer:coarse)").matches;
+
+
+// ========================================
+// 【県別設定】ここだけ県ごとに変更する
+// ========================================
+
+// 読み込み中に表示する県の中心付近
+const INITIAL_MAP_CENTER = [35.86,139.65];
+
+// 読み込み中の拡大率
+const INITIAL_MAP_ZOOM =8;
+
+// 初期表示から除外する市町村
+// 離島対策が不要な県は [] のまま
+const INITIAL_VIEW_EXCLUDED_CITIES = [];
+// ========================================
+// 【県別設定】ここまで
+// ========================================
+
+
+
+const map = L.map("map", {
+  zoomControl:false
+}).setView(
+  INITIAL_MAP_CENTER,
+  INITIAL_MAP_ZOOM
+);
 
 map.createPane("drawAreaPane");
 map.getPane("drawAreaPane").style.zIndex = 450;
@@ -3631,13 +4320,47 @@ getInitialBoundaryData()
 
     }).addTo(map);
 
-    // 埼玉県全体の初期表示の大きさ設定
+    // 県全体の初期表示の大きさ設定
     //　↓数字を小さくすると表示が大きくなる（余白の大きさを指定してる）
-    map.fitBounds(boundary.getBounds(), {
-        padding:[20, 20]
+    // ========================================
+    // 初回表示範囲を作成
+    // 指定された離島の市町村は初回表示だけ除外する
+    // ========================================
+
+    const initialBounds = L.latLngBounds();
+
+    boundary.eachLayer(function(layer){
+
+      const cityName =
+        layer.feature &&
+        layer.feature.properties
+          ? layer.feature.properties.N03_004
+          : "";
+
+      const isExcluded =
+        IS_PARENT_PAGE &&
+        INITIAL_VIEW_EXCLUDED_CITIES.includes(cityName);
+
+      if(
+        !isExcluded &&
+        typeof layer.getBounds === "function"
+      ){
+        initialBounds.extend(layer.getBounds());
+      }
+
     });
 
+    const firstViewBounds = initialBounds.isValid()
+      ? initialBounds
+      : boundary.getBounds();
+
+    map.fitBounds(firstViewBounds, {
+      padding:[20, 20]
+    });
+
+    // 「県を全体表示」では離島も含めた県全域を表示する
     window.fullBounds = boundary.getBounds();
+
     cityBoundaryDataReady = true;
 
   })
@@ -4620,6 +5343,21 @@ function openPopupAbove(layer){
   layer.openPopup(topCenter);
 }
 
+function makeCorrectionPendingHtml(row){
+
+  const hasRequest =
+    String(row["修正依頼日時"] || "").trim() !== "";
+
+  const hasCompleted =
+    String(row["管理者修正日時"] || "").trim() !== "";
+
+  if(hasRequest && !hasCompleted){
+    return '<span class="area-detail-request-pending">※修正依頼中</span>';
+  }
+
+  return "";
+}
+
 function makePopupHtml(row, isPlanned){
 
   let html =
@@ -5352,7 +6090,7 @@ function resetView(){
   closeAreaDetailPopup(false);
   map.closePopup();
 
-  // 「埼玉県を全体示」の時の大きさ設定
+  // 「県を全体示」の時の大きさ設定
   //　↓数字を小さくすると表示が大きくなる（余白の大きさを指定してる）
   if(window.fullBounds){
     map.fitBounds(window.fullBounds, {
@@ -5699,17 +6437,24 @@ function makeParentAreaDetailHtml(row){
         ※作図済みエリアの修正・削除依頼は、各市町村ページにて
       </div>
 
-    <button
-      type="button"
-      class="popup-admin-btn"
-      onclick="goToAreaCity('${row["市町村"] || ""}', '${row["ID"] || ""}')"
-      style="
-        margin-top:8px;
-        font-weight:bold;
-      "
-    >
-      ${row["市町村"] || "市町村"}ページへ移動
-    </button>
+    <div class="area-detail-action-row" style="
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    ">
+      <button
+        type="button"
+        class="popup-admin-btn"
+        onclick="goToAreaCity('${row["市町村"] || ""}', '${row["ID"] || ""}')"
+        style="font-weight:bold;"
+      >
+        ${row["市町村"] || "市町村"}ページへ移動
+      </button>
+
+      ${makeCorrectionPendingHtml(row)}
+    </div>
 
     <hr style="
       margin:10px 0;
